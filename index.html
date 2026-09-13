@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>کتاب کیمیاشده (Alchemised) - ترجمه کامل فارسی</title>
@@ -45,8 +44,7 @@ body.theme-light {
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
-    scroll-behavior: smooth;
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 body {
@@ -56,7 +54,7 @@ body {
     line-height: var(--line-height);
     direction: rtl;
     transition: background-color 0.3s, color 0.3s;
-    overflow-x: hidden;
+    overflow-x: clip;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -292,14 +290,21 @@ body.theme-light .book-hero h1 {
     border: 1px solid var(--border-color);
 }
 
-/* Chapter Sections with Rendering Virtualization */
+/* Chapter Sections */
 .book-section {
     scroll-margin-top: 80px;
     margin-bottom: 60px;
     padding-bottom: 40px;
     border-bottom: 1px solid var(--border-color);
-    content-visibility: auto;
-    contain-intrinsic-size: 1000px;
+    transition: background-color 0.3s;
+}
+
+@keyframes jumpHighlightAnim {
+    0% { background-color: rgba(168, 85, 247, 0.22); border-radius: 8px; }
+    100% { background-color: transparent; }
+}
+.jump-highlight {
+    animation: jumpHighlightAnim 1.8s ease-out;
 }
 
 .section-header {
@@ -575,8 +580,8 @@ body.theme-light blockquote {
     .book-section {
         page-break-before: always;
         border-bottom: none !important;
-        content-visibility: visible !important;
-        contain-intrinsic-size: auto !important;
+        
+        
     }
 }
 </style>
@@ -591,7 +596,7 @@ body.theme-light blockquote {
     <div class="nav-actions">
         <select class="chapter-select" id="chapterSelector" onchange="jumpToChapter(this.value)">
             <option value="">پرش به فصل...</option>
-            <option value="sec-5">یادداشت نویسنده</option><option value="sec-7">پیش‌درآمد</option><option value="sec-9">فصل ۱</option><option value="sec-11">فصل دوم</option><option value="sec-13">فصل سوم</option><option value="sec-15">فصل چهارم</option><option value="sec-17">فصل پنجم</option><option value="sec-19">فصل ۶</option><option value="sec-21">فصل ۷</option><option value="sec-23">فصل ۸</option><option value="sec-25">فصل ۹</option><option value="sec-27">فصل ۱۰</option><option value="sec-29">فصل ۱۱</option><option value="sec-31">فصل ۱۲</option><option value="sec-33">فصل ۱۳</option><option value="sec-35">فصل ۱۴</option><option value="sec-37">فصل ۱۵</option><option value="sec-39">فصل شانزدهم</option><option value="sec-41">فصل ۱۷</option><option value="sec-43">فصل ۱۸</option><option value="sec-45">فصل ۱۹</option><option value="sec-47">فصل ۲۰</option><option value="sec-49">فصل بیست و یکم</option><option value="sec-52">فصل ۲۲</option><option value="sec-54">فصل ۲۳</option><option value="sec-56">فصل ۲۴</option><option value="sec-58">فصل ۲۵</option><option value="sec-60">فصل ۲۶</option><option value="sec-62">فصل ۲۷</option><option value="sec-64">فصل ۲۸</option><option value="sec-66">فصل ۲۹</option><option value="sec-68">فصل ۳۰</option><option value="sec-70">فصل سی‌ویکم</option><option value="sec-72">فصل ۳۲</option><option value="sec-74">فصل ۳۳</option><option value="sec-76">فصل ۳۴</option><option value="sec-78">فصل ۳۵</option><option value="sec-80">فصل ۳۶</option><option value="sec-82">فصل ۳۷</option><option value="sec-84">فصل ۳۸</option><option value="sec-86">فصل ۳۹</option><option value="sec-88">فصل ۴۰</option><option value="sec-90">فصل ۴۱</option><option value="sec-92">فصل ۴۲</option><option value="sec-94">فصل ۴۳</option><option value="sec-96">فصل ۴۴</option><option value="sec-98">فصل ۴۵</option><option value="sec-100">فصل ۴۶</option><option value="sec-102">فصل ۴۷</option><option value="sec-104">فصل ۴۸</option><option value="sec-106">فصل ۴۹</option><option value="sec-108">فصل ۵۰</option><option value="sec-110">فصل پنجاه و یکم</option><option value="sec-112">فصل ۵۲</option><option value="sec-114">فصل ۵۳</option><option value="sec-116">فصل ۵۴</option><option value="sec-118">فصل ۵۵</option><option value="sec-120">فصل ۵۶</option><option value="sec-122">فصل ۵۷</option><option value="sec-124">فصل ۵۸</option><option value="sec-126">فصل ۵۹</option><option value="sec-128">فصل شصتم</option><option value="sec-130">فصل ۶۱</option><option value="sec-132">فصل ۶۲</option><option value="sec-134">فصل ۶۳</option><option value="sec-136">فصل ۶۴</option><option value="sec-138">فصل ۶۵</option><option value="sec-141">فصل ۶۶</option><option value="sec-143">فصل ۶۷</option><option value="sec-145">فصل ۶۸</option><option value="sec-147">فصل ۶۹</option><option value="sec-149">فصل ۷۰</option><option value="sec-151">فصل ۷۱</option><option value="sec-153">فصل ۷۲</option><option value="sec-155">فصل ۷۳</option><option value="sec-157">فصل ۷۴</option><option value="sec-159">فصل ۷۵</option><option value="sec-161">فصل ۷۶</option><option value="sec-163">فصل ۷۷</option><option value="sec-165">فصل ۷۸</option><option value="sec-167">مؤخره</option>
+            <option value="sec-5">یادداشت نویسنده</option><option value="sec-7">مقدمه</option><option value="sec-9">فصل ۱</option><option value="sec-11">فصل دوم</option><option value="sec-13">فصل سوم</option><option value="sec-15">فصل چهارم</option><option value="sec-17">فصل پنجم</option><option value="sec-19">فصل ۶</option><option value="sec-21">فصل ۷</option><option value="sec-23">فصل ۸</option><option value="sec-25">فصل ۹</option><option value="sec-27">فصل ۱۰</option><option value="sec-29">فصل ۱۱</option><option value="sec-31">فصل ۱۲</option><option value="sec-33">فصل ۱۳</option><option value="sec-35">فصل ۱۴</option><option value="sec-37">فصل ۱۵</option><option value="sec-39">فصل شانزدهم</option><option value="sec-41">فصل ۱۷</option><option value="sec-43">فصل ۱۸</option><option value="sec-45">فصل ۱۹</option><option value="sec-47">فصل ۲۰</option><option value="sec-49">فصل بیست و یکم</option><option value="sec-52">فصل ۲۲</option><option value="sec-54">فصل ۲۳</option><option value="sec-56">فصل ۲۴</option><option value="sec-58">فصل ۲۵</option><option value="sec-60">فصل ۲۶</option><option value="sec-62">فصل ۲۷</option><option value="sec-64">فصل ۲۸</option><option value="sec-66">فصل ۲۹</option><option value="sec-68">فصل ۳۰</option><option value="sec-70">فصل سی‌ویکم</option><option value="sec-72">فصل ۳۲</option><option value="sec-74">فصل ۳۳</option><option value="sec-76">فصل ۳۴</option><option value="sec-78">فصل ۳۵</option><option value="sec-80">فصل ۳۶</option><option value="sec-82">فصل ۳۷</option><option value="sec-84">فصل ۳۸</option><option value="sec-86">فصل ۳۹</option><option value="sec-88">فصل ۴۰</option><option value="sec-90">فصل ۴۱</option><option value="sec-92">فصل ۴۲</option><option value="sec-94">فصل ۴۳</option><option value="sec-96">فصل ۴۴</option><option value="sec-98">فصل ۴۵</option><option value="sec-100">فصل ۴۶</option><option value="sec-102">فصل ۴۷</option><option value="sec-104">فصل ۴۸</option><option value="sec-106">فصل ۴۹</option><option value="sec-108">فصل ۵۰</option><option value="sec-110">فصل پنجاه و یکم</option><option value="sec-112">فصل ۵۲</option><option value="sec-114">فصل ۵۳</option><option value="sec-116">فصل ۵۴</option><option value="sec-118">فصل ۵۵</option><option value="sec-120">فصل ۵۶</option><option value="sec-122">فصل ۵۷</option><option value="sec-124">فصل ۵۸</option><option value="sec-126">فصل ۵۹</option><option value="sec-128">فصل شصتم</option><option value="sec-130">فصل ۶۱</option><option value="sec-132">فصل ۶۲</option><option value="sec-134">فصل ۶۳</option><option value="sec-136">فصل ۶۴</option><option value="sec-138">فصل ۶۵</option><option value="sec-141">فصل ۶۶</option><option value="sec-143">فصل ۶۷</option><option value="sec-145">فصل ۶۸</option><option value="sec-147">فصل ۶۹</option><option value="sec-149">فصل ۷۰</option><option value="sec-151">فصل ۷۱</option><option value="sec-153">فصل ۷۲</option><option value="sec-155">فصل ۷۳</option><option value="sec-157">فصل ۷۴</option><option value="sec-159">فصل ۷۵</option><option value="sec-161">فصل ۷۶</option><option value="sec-163">فصل ۷۷</option><option value="sec-165">فصل ۷۸</option><option value="sec-167">مؤخره</option>
         </select>
         
         <div class="font-control-group" title="تنظیم اندازه متن">
@@ -654,7 +659,7 @@ body.theme-light blockquote {
         
         <section class="book-section" id="sec-7">
             <div class="section-header">
-                <span class="badge">پیش‌درآمد</span>
+                <span class="badge">مقدمه</span>
             </div>
             <div class="section-body">
                 <h2 class="chapter-title">مقدمه</h2><p>هلنا گاهی وقت‌ها با خودش فکر می‌کرد که آیا اصلاً هنوز چشم دارد یا نه. تاریکیِ دور و برش هیچ‌وقت تمام نمی‌شد. اولش فکر می‌کرد اگر کمی بیشتر صبر کند، بالاخره یه کورسوی نور پیدا می‌شود یا کسی سراغش می‌آید. اما هرچقدر هم که انتظار می‌کشید، خبری نبود.</p><p>فقط تاریکیِ بی‌کران.</p><p>او یک جسم داشت؛ حسش می‌کرد که چطور مثل یه قفس دورش پیچیده، اما هرچقدر هم که زور می‌زد و عزمش را جفت‌وجور می‌کرد، نمی‌توانست تکانش بدهد. بی‌حس و بی‌معنی معلق مانده بود؛ مگر وقت‌هایی که موج‌ها به جانش می‌افتادند و تنش به شدت تیر می‌کشید—رگه‌هایی از برق که از پایین گردنش شروع می‌شدند و تک‌تک ماهیچه‌های بدن‌اش را به انقباضی وحشیانه وامی‌داشتند. همان‌قدر که ناگهانی می‌آمدند، ناپدید هم می‌شدند. این‌ها تنها معیارش برای سنجش زمان بودند.</p><p>این کار را می‌کردند تا مطمئن شوند ماهیچه‌هایش توی حالت استاسیس کاملاً تحلیل نمی‌روند. هلنا این جزئیات را یادش بود. یادش بود که به عنوان زندانی آنجا گذاشته بودنش، سالم و دست‌نخورده نگهش داشته بودند، اما بالاخره یه روزی یکی سراغش می‌آید.</p><p>اولش فاصله‌ی بین این شوک‌ها را می‌شمرد تا بفهمد با چه فرکانسی تکرار می‌شوند. ثانیه به ثانیه. ده هزار و هشتصد تا. هر سه ساعت، بدون استثنا. همیشه هم همینطور بود. بعد شروع کرده بود به شمردن خودِ شوک‌ها، اما هرچقدر تعدادشان بیشتر و بیشتر می‌شد، دیگر ادامه نداد؛ می‌ترسید واقعیت را بداند.</p><p>خودش را مجبور می‌کرد روی چیزهای دیگه تمرکز کند، نه روی انتظار. نه روی این پوچیِ بی‌پایان. نه روی تاریکی. باید صبر می‌کرد، پس برای اینکه ذهنش تازه بماند، برای خودش برنامه‌ای روزمره دست‌وپا کرده بود. پیاده‌روی‌های خیالی. صخره‌ها و آسمان. به تمام جاهایی که یک روزی توشان پرسه زده بود سر می‌زد. به تمام کتاب‌هایی که خوانده بود.</p><p>باید دوام می‌آورد. باید هوشیار می‌ماند. اینطوری آماده می‌شد. باید آماده می‌ماند.</p><p>نمی‌گذاشت محو و نابود شود.</p>
@@ -1521,16 +1526,24 @@ function toggleTheme() {
     safeStorageSet('alchemised_theme', themes[currentThemeIdx]);
 }
 
-// Jump to Chapter (robust with scroll-margin-top)
+// Jump to Chapter (Native browser element scroll)
 function jumpToChapter(id) {
     if (!id) return;
     const el = document.getElementById(id);
-    if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    if (!el) return;
+    
+    // Direct native browser scroll (automatically uses CSS scroll-margin-top)
+    el.scrollIntoView({ block: 'start' , behavior : 'smooth'});
+    
+    // Highlight chapter gently so reader sees the title
+    el.classList.remove('jump-highlight');
+    void el.offsetWidth;
+    el.classList.add('jump-highlight');
+    setTimeout(() => {
+        el.classList.remove('jump-highlight');
+    }, 2000);
 }
 
-// Expose functions globally to guarantee inline event handler binding
 window.changeFontSize = changeFontSize;
 window.resetFontSize = resetFontSize;
 window.toggleTheme = toggleTheme;
