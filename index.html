@@ -413,6 +413,34 @@ body.theme-light blockquote {
     background: var(--accent-hover);
 }
 
+/* Floating Save/Load Scroll Buttons */
+#save-scroll, #load-scroll {
+    position: fixed;
+    right: 30px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    color: var(--accent);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    transition: all 0.3s;
+    z-index: 900;
+}
+#save-scroll { bottom: 30px; }
+#load-scroll { bottom: 90px; opacity: 0; pointer-events: none; }
+#load-scroll.show { opacity: 1; pointer-events: auto; }
+#save-scroll:hover, #load-scroll:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    color: var(--accent-hover);
+}
+
 /* Tablet & Mobile Responsiveness */
 @media (max-width: 768px) {
     #navbar {
@@ -489,6 +517,14 @@ body.theme-light blockquote {
         height: 44px;
         font-size: 1.2rem;
     }
+    #save-scroll, #load-scroll {
+        right: 20px;
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+    }
+    #save-scroll { bottom: 20px; }
+    #load-scroll { bottom: 75px; }
 }
 
 @media (max-width: 480px) {
@@ -559,11 +595,19 @@ body.theme-light blockquote {
         height: 40px;
         font-size: 1.1rem;
     }
+    #save-scroll, #load-scroll {
+        right: 16px;
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+    #save-scroll { bottom: 16px; }
+    #load-scroll { bottom: 65px; }
 }
 
 /* Print Styles for PDF Export */
 @media print {
-    #navbar, #progress-container, #back-to-top {
+    #navbar, #progress-container, #back-to-top, #save-scroll, #load-scroll {
         display: none !important;
     }
     body {
@@ -1422,6 +1466,8 @@ One Embassy Gardens, 8 Viaduct Gardens, London SW11 7BW</p>
 </main>
 
 <button id="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" title="برگشت به بالا">↑</button>
+<button id="save-scroll" onclick="saveScrollPosition()" title="ذخیره مکان خواندن">🔖</button>
+<button id="load-scroll" onclick="loadScrollPosition()" title="رفتن به مکان ذخیره شده">⬇️</button>
 
 <script>
 // Safe localStorage wrappers to prevent security/access errors in any environment
@@ -1544,10 +1590,45 @@ function jumpToChapter(id) {
     }, 2000);
 }
 
+// Scroll position save and load
+function saveScrollPosition() {
+    const winScroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    safeStorageSet('alchemised_saved_scroll', winScroll);
+    
+    const btn = document.getElementById('save-scroll');
+    if (btn) {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '✅';
+        setTimeout(() => { btn.innerHTML = originalText; }, 1500);
+    }
+    checkSavedScroll();
+}
+
+function loadScrollPosition() {
+    const saved = safeStorageGet('alchemised_saved_scroll', null);
+    if (saved !== null) {
+        window.scrollTo({ top: parseInt(saved, 10), behavior: 'smooth' });
+    }
+}
+
+function checkSavedScroll() {
+    const saved = safeStorageGet('alchemised_saved_scroll', null);
+    const btn = document.getElementById('load-scroll');
+    if (btn) {
+        if (saved !== null) {
+            btn.classList.add('show');
+        } else {
+            btn.classList.remove('show');
+        }
+    }
+}
+
 window.changeFontSize = changeFontSize;
 window.resetFontSize = resetFontSize;
 window.toggleTheme = toggleTheme;
 window.jumpToChapter = jumpToChapter;
+window.saveScrollPosition = saveScrollPosition;
+window.loadScrollPosition = loadScrollPosition;
 
 // Initialize saved settings safely
 (function initSettings() {
@@ -1566,6 +1647,7 @@ window.jumpToChapter = jumpToChapter;
         }
     }
     updateFontSizeUI();
+    checkSavedScroll();
 })();
 </script>
 </body>
